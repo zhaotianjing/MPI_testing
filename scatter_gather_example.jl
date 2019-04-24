@@ -29,3 +29,44 @@ function example1()
 end
 
 example1()
+
+
+
+
+
+
+###################################################### Note: Julia is column-major language
+# srun -N 2 -n 2 -t 1 julia ./xx.jl
+# A:[1,2,3,4
+#    5,6,7,8]
+# output:[1,5,2,6]  [3,4,7,8]
+
+using MPI
+using LinearAlgebra
+
+
+function example1()
+    MPI.Init()
+
+    comm = MPI.COMM_WORLD
+    my_rank = MPI.Comm_rank(comm)      #0,1
+    p = MPI.Comm_size(comm)            #2
+    n_element = 4
+
+    A=[1 2 3 4;5 6 7 8]
+    local_A = MPI.Scatter(A,n_element,0,comm)
+    println(local_A)
+
+    # #print final result
+    # res = MPI.Gather(local_A,0,comm)
+    #
+    #
+    # if my_rank==0
+    #     println(res)
+    # end
+
+    MPI.Finalize()
+end
+
+
+example1()
