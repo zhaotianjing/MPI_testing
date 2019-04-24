@@ -1,12 +1,3 @@
-run julia MPI code on server:
-```
-srun -N 1 -n 3 -t 1 julia ./01-hello.jl
-```
-N: number of nodes  
-n: number of jobs  
-t: time limite for one job. -t -1 is one minute  
-
-For large jobs, putting the above srun command inside a sbatch script.
 
 ```
 using MPI
