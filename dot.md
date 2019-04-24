@@ -1,4 +1,4 @@
-
+## Reduce
 ```
 using MPI
 
@@ -66,4 +66,15 @@ function mpi_dot(a,b,n)
     end
     
 end
+```
+
+## Scatter
+```
+    local_x = MPI.Scatter(x,n_element,0,comm)
+    local_y = MPI.Scatter(y,n_element,0,comm)
+
+    local_dot = dot(local_x,local_y)
+
+    #print final result
+    res = MPI.Allreduce(local_dot,MPI.SUM, comm)
 ```
