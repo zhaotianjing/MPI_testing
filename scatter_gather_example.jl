@@ -57,14 +57,6 @@ function example1()
     local_A = MPI.Scatter(A,n_element,0,comm)
     println(local_A)
 
-    # #print final result
-    # res = MPI.Gather(local_A,0,comm)
-    #
-    #
-    # if my_rank==0
-    #     println(res)
-    # end
-
     MPI.Finalize()
 end
 
