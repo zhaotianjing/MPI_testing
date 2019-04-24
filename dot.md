@@ -46,3 +46,24 @@ y=randn(n)
 @time run_mpi_dot(x,y,n)
 
 ```
+
+## Allreduce
+```
+function mpi_dot(a,b,n)
+    comm = MPI.COMM_WORLD
+
+    myid = MPI.Comm_rank(comm)      #0,1,2,3
+    numprocs = MPI.Comm_size(comm)  #4
+
+    local_x = a[msplit(n,numprocs,myid+1)]
+    local_y = b[msplit(n,numprocs,myid+1)]
+    local_sum = mydot(local_x,local_y)
+
+    allsum = MPI.Allreduce(local_sum,MPI.SUM, comm)
+
+    if myid==0
+        println(allsum)
+    end
+    
+end
+```
