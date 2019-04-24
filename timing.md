@@ -23,23 +23,23 @@ end
 @time test_time()
 ```
 
-timing:
+## 1
 ```
 srun -N 1 -n 3 -t 1 julia ./MPI_time_test.jl
 ```
 
-result:
 ```
  20.655815 seconds (487.56 k allocations: 24.423 MiB, 0.03% gc time)
  21.225218 seconds (487.56 k allocations: 24.423 MiB, 0.02% gc time)
  20.668072 seconds (487.56 k allocations: 24.423 MiB, 0.03% gc time)
 ```
 
+## 2
 ```
 srun -N 2 -n 4 -t 1 julia ./MPI_time_test.jl
 ```
 
-result:
+
 ```
  30.834807 seconds (487.56 k allocations: 24.423 MiB, 0.02% gc time)
  31.132843 seconds (487.56 k allocations: 24.423 MiB, 0.02% gc time)
@@ -47,6 +47,7 @@ result:
  30.843462 seconds (487.56 k allocations: 24.423 MiB, 0.02% gc time)
 ```
 
+## 3
 ```
 srun -N 4 -n 4 -t 1 julia ./MPI_time_test.jl
 ```
@@ -59,6 +60,7 @@ srun -N 4 -n 4 -t 1 julia ./MPI_time_test.jl
 
 ```
 
-
+## Conclusion
+Use maximum time recording as its real time.
 
 
