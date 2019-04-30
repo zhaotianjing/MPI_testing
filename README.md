@@ -8,3 +8,6 @@ How to use MPI reduce? [dot.md](https://github.com/zhaotianjing/MPI_testing/blob
 
 How to use MPI scatter/gather? [scatter_gather_example.jl](https://github.com/zhaotianjing/MPI_testing/blob/master/scatter_gather_example.jl)  
 * Note, Julia is a column-major language, so matrix can only be scattered by column, not by row. And the parallel matrix\*vector can be achieved only by columnwise block-striped decompusition.
+
+MPI matrix-vector multiplication [matrix_vector.md](https://github.com/zhaotianjing/MPI_testing/blob/master/matrix_vector.md)
+
