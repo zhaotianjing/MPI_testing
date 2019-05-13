@@ -55,21 +55,6 @@ runc()
 
 # Time
 ## big matirx
-A: 50_000 by 50_000 matrix  
-x: 50_000 length vector
-iter: 5  
-This is not accurate because the #iter is too small. Thus the time on each task are very different.
-
-| Number of nodes | Number of ntasks-per-node | Time(seconds)| Job ID |
-|-----------------|----------------|--------------|--------|
-|             1   | 2              |     17     |10632541|
-|             1   | 4              | 13        |10632545|
-|             1   | 10             | 16        |10632546|
-|             1   | 20             | 7         |10632548|
-|             2   | 10             | 14        |10632575|
-|             2   | 20             | 3         |10632665|
-|             2   | 40             | 4.4       |10632666|
-
 
 iter: 500
 This is reliable because the time on each tasks are almost same.
