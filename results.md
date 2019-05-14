@@ -3,6 +3,7 @@ scatter A before for-loop. Inside each for-loop, scatter x and calculate the mat
 
 
 # Code
+## MPI
 ```
 using MPI
 
@@ -43,21 +44,87 @@ function runc()
 end
 
 runc()
-
-
-# ones(6,6)*ones(6)
-# ones(6,6)*(ones(6).+1)
-# ones(6,6)*(ones(6).+2)
-
-
 ```
 
+## No MPI
+```
+function runc()
+
+    nRow=50_000
+    nCol=50_000
+
+    ZFull = rand(nRow,nCol)
+    x = rand(nCol)
+
+    @time for i in 1:500
+        my_sum = ZFull * x
+        x = x .+ 0.1
+    end
+end
+
+println("NO MPI")
+runc()
+```
+No MPI: 
+Job ID: 10679486   
+Time(seconds): 553
+
+Job ID: 10679974  
+Time(seconds): 529
+
+## No MPI 2
+```
+function mydot(a,b)
+    s=0.0
+    for i in 1:length(a)
+        s+=a[i]*b[i]
+    end
+    return s
+end
+
+function runc()
+
+    nRow=50_000
+    nCol=50_000
+
+    ZFull = rand(nCol)
+    x = rand(nCol)
+
+    @time for i in 1:500
+        for j in 1:nCol
+            my_sum = mydot(ZFull,x)
+            x = x .+ 0.1
+        end
+    end
+end
+
+println("NO MPI")
+runc()
+
+```
+Job ID: 10703214  
+Time: exceed time limit
 
 # Time
 ## big matirx
+A: 50_000 by 50_000 matrix   
+x: 50_000 length vector  
+iter: 5  
+This is not accurate because the #iter is too small. Thus the time on each task are very different.  
 
-iter: 500
-This is reliable because the time on each tasks are almost same.
+| Number of nodes | Number of ntasks-per-node | Time(seconds)| Job ID |
+|-----------------|----------------|--------------|--------|
+|             1   | 2              |     17     |10632541|
+|             1   | 4              | 13        |10632545|
+|             1   | 10             | 16        |10632546|
+|             1   | 20             | 7         |10632548|
+|             2   | 10             | 14        |10632575|
+|             2   | 20             | 3         |10632665|
+|             2   | 40             | 4.4       |10632666|
+
+
+iter: 500  
+This is reliable because the time on each tasks are almost same.  
 
 | Number of nodes | Number of ntasks-per-node | Time(seconds)| Job ID |
 |-----------------|----------------|--------------|--------|
@@ -76,10 +143,6 @@ This is reliable because the time on each tasks are almost same.
 |             10   | 1             |    70       |10681800|
 |             10   | 2             |    105      |10682034|
 
-No MPI: 
-Job ID: 10679486  
-Time(seconds): 553
 
-Job ID: 10679974   
-Time(seconds): 529
+
 
