@@ -1,3 +1,4 @@
+######## THIS IS WRONG!! CANNOT SCATTER INSIDE LOOP.
 using MPI
 
 function MPI_mv(A,x)
