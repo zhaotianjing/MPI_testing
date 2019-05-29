@@ -28,7 +28,36 @@ end
 t()
 
 
+######################################################
+using MPI
+function t()
+    MPI.Init()
 
+    comm = MPI.COMM_WORLD
+    my_rank = MPI.Comm_rank(comm)
+
+    if my_rank==0
+        v = [1,2,3,4,5,6]
+    else
+        v=Int64[]
+    end
+    v=MPI.Scatter(v,3,0,comm)
+
+    for i in 1:2
+        v_all=MPI.Gather(v,0,comm) #Each process sends sendbuf to the root process.(so each process should run MPI.Gather)
+        v=v .+ 1
+        if my_rank==0
+            @show v_all
+        end
+    end
+
+    MPI.Finalize()
+end
+
+t()
+
+# v_all = [1, 2, 3, 4, 5, 6]
+# v_all = [2, 3, 4, 5, 6, 7]
 
 
 
