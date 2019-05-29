@@ -3,32 +3,30 @@
 
 
 using MPI
-
-function example1()
+function t()
     MPI.Init()
 
     comm = MPI.COMM_WORLD
-    my_rank = MPI.Comm_rank(comm)      #0,1
-    p = MPI.Comm_size(comm)            #2
-
-    A=[1,2 ,3 ,4, 5, 6, 7, 8]
-
-    local_A = MPI.Scatter(A,4,0,comm)  #[1234] [5678]
-
-
-    local_res = local_A*2
-
-    #print final result
-    res = MPI.Gather(local_res,0,comm)
+    my_rank = MPI.Comm_rank(comm)
 
     if my_rank==0
-        println(res)
+        v = [1,2,3,4,5,6]
+    else
+        v=Int64[]
     end
+    v=MPI.Scatter(v,3,0,comm)
+
+    v_all=MPI.Gather(v,0,comm) #Each process sends sendbuf to the root process.(so each process should run MPI.Gather)
+    if my_rank==0
+        @show v_all
+    end
+
 
     MPI.Finalize()
 end
 
-example1()
+t()
+
 
 
 
