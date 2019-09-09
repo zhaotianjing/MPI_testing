@@ -1,4 +1,4 @@
-# EXAMPLE: scatterv
+# EXAMPLE: gatherv
 # here we have 3 ranks
 
 using MPI
@@ -18,14 +18,16 @@ end
 counts=Int32[2,2,1]
 data = MPI.Scatterv(data, counts, 0, comm) 
 
-@show rank, data
+data_gather=MPI.Gatherv(data, counts, 0, comm)
 
+
+if rank ==0
+    @show data_gather
+end
 
 MPI.Finalize()
 
 
 ## output:
-# (rank, data) = (2, [11.0])
-# (rank, data) = (0, [7.0, 8.0])
-# (rank, data) = (1, [9.0, 10.0])
+# data_gather = [7.0, 8.0, 9.0, 10.0, 11.0]
 
