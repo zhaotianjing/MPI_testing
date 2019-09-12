@@ -17,3 +17,7 @@ function runc()
 end
 
 runc()
+
+
+# In uneven  randn(),1.why rank0 different: because alpha=randn() already use seed. 
+# 2.why rank_last is different: because rand(my_rank_size) use more seed than others
