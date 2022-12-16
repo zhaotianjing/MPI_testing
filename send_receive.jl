@@ -5,7 +5,7 @@ MPI.Init()
 
 comm = MPI.COMM_WORLD
 rank = MPI.Comm_rank(comm)
-
+@show rank
 
 if rank==0
     data=[7.0,8.0,9.0,10.0]
@@ -19,3 +19,9 @@ end
 
 
 MPI.Finalize()
+
+
+# Module julia/1.8.2 loaded 
+# rank = 1
+# rank = 0
+# [7.0, 8.0, 9.0, 10.0]

@@ -3,29 +3,35 @@
 
 using MPI
 
-
 MPI.Init()
+
 comm = MPI.COMM_WORLD
 rank = MPI.Comm_rank(comm)
+comm_size = MPI.Comm_size(comm)
 
+root = 0
 
-if rank == 0
-    data = [7.0,8.0,9.0,10.0,11.0]
+# Scatterv!(sendbuf, recvbuf, comm::Comm; root::Integer=0)
+#   Splits the buffer sendbuf in the root process into Comm_size(comm) chunks 
+#   and sends the jth chunk to the process of rank j-1 into the recvbuf buffer.
+#   sendbuf on the root process should be a VBuffer. 
+
+if rank == root
+    test = [1.0,2, 3,4, 5,6]        # Vector & FLOAT64 !!!!!!!
+    test_vbuf = VBuffer(test, [2,2,2])
 else
-    data = Float64[]
+    test_vbuf = VBuffer(nothing)
 end
 
-counts=Int32[2,2,1]
-data = MPI.Scatterv(data, counts, 0, comm) 
+local_test = MPI.Scatterv!(test_vbuf, zeros(2), root, comm) # Vector & FLOAT64 !!!!!!!
 
-@show rank, data
-
+@show rank,local_test
 
 MPI.Finalize()
 
 
-## output:
-# (rank, data) = (2, [11.0])
-# (rank, data) = (0, [7.0, 8.0])
-# (rank, data) = (1, [9.0, 10.0])
+# Module julia/1.8.2 loaded 
+# (rank, local_test) = (2, [5.0, 6.0])
+# (rank, local_test) = (1, [3.0, 4.0])
+# (rank, local_test) = (0, [1.0, 2.0])
 

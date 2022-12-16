@@ -10,21 +10,26 @@ rank = MPI.Comm_rank(comm)
 
 
 if rank == 0
-    data = [7.0,8.0,9.0,10.0,11.0,12.0]
+    data = [7.0,8.0, 9.0,10.0, 11.0,12.0]
 else
     data = Float64[]
 end
 
-data = MPI.Scatter(data, 2, 0, comm) #each rank has 2 elements
+my_data = MPI.Scatter(data, 2, 0, comm) #each rank has 2 elements
+@show rank,my_data
 
-data_gather = MPI.Gather(data, 2, 0, comm)
-
+data_gather = MPI.Gather(my_data, 2, 0, comm)
 
 #print output
 if rank == 0
     @show data_gather
 end
 
-
-
 MPI.Finalize()
+
+
+# Module julia/1.8.2 loaded 
+# (rank, my_data) = (2, [11.0, 12.0])
+# (rank, my_data) = (0, [7.0, 8.0])
+# (rank, my_data) = (1, [9.0, 10.0])
+# data_gather = [7.0, 8.0, 9.0, 10.0, 11.0, 12.0]
