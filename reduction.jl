@@ -42,3 +42,4 @@ MPI.Finalize()
 # (rank, small_dot) = (1, 181.0)
 # all_dot = 559.0
 
+# note that reduce can be applied to matrix directly. No need to vectorize the matrix.
